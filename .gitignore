@@ -1,0 +1,40 @@
+# OS-specific files
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Python-specific ignores
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Jupyter Notebook-specific ignores
+.ipynb_checkpoints/
+*.ipynb~
+*.~ipynb
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# My ignores
+data/**
+!data/.gitkeep
+
