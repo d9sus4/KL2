@@ -37,4 +37,5 @@ pip-delete-this-directory.txt
 # My ignores
 data/**
 !data/.gitkeep
+!data/notes.md
 
