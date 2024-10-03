@@ -1,23 +1,326 @@
 ##### Corrected data preprocessing tables:
-- interpreter (need_want_interpreter): Yes and No seem inverted
+- `interpreter` (need_want_interpreter): Yes and No seem inverted
 
-- hispanic (hispanicorigin_no): t should be mapped to No instead of Yes
+- `hispanic` (hispanicorigin_no): t should be mapped to No instead of Yes
 
-- marital_status (maritalstatus): deleted extra useless file “data_conversion_map.xlsx”
+- `marital_status` (maritalstatus): deleted extra useless file “data_conversion_map.xlsx”
 
-- med_intervention (medicationintervention): looks like 0-No should be 9-No?
+- `med_intervention` (medicationintervention): looks like 0-No should be 9-No?
 
-- meds_iv_adm (HIJKMNO-discharge-treativmedsdis): should be meds_iv_dc?
+- `meds_iv_adm` (HIJKMNO-discharge-treativmedsdis): should be meds_iv_dc?
 
-- vent_cpap_adm (HIJKMNO-discharge-treatcpapdis): should be vent_cpap_dc?
+- `vent_cpap_adm` (HIJKMNO-discharge-treatcpapdis): should be vent_cpap_dc?
 
-- pressure_ulcer_dc (HIJKMNO-discharge-pressureulcersdisch): misstyped as adm
+- `pressure_ulcer_dc` (HIJKMNO-discharge-pressureulcersdisch): misstyped as adm
 
-- bathe_adm (GG-adm-showerbatheadm): somehow they are at column C/D, not A/B
+- `bathe_adm` (GG-adm-showerbatheadm): somehow they are at column C/D, not A/B
 
-- bathe_dc (GG-dc-showerbathedc): somehow they are at column C/D, not A/B
+- `bathe_dc` (GG-dc-showerbathedc): somehow they are at column C/D, not A/B
 
-- toileting_goal (GG-adm-toiletinghygienegoal): some how it does not start from row 1
+- `toileting_goal` (GG-adm-toiletinghygienegoal): some how it does not start from row 1
+
 ##### Assumptions:
 
-- hispanic: we should probably combine this variable with the unable to respond and decline to respond, and anyone who did not have one of those boxes checked should be a "No".
+- `hispanic`: we should probably combine this variable with the unable to respond and decline to respond, and anyone who did not have one of those boxes checked should be a "No".
+- `race`: groups are ['White' 'Black' 'Unknown' 'Southeast_Asian' 'Alaskan' 'Asian_Indian'
+ 'East_Asian' 'Pacific_islander']
+- `language`: groups are ['Engilish', 'Non-English']
+- Outcome columns: impute missing values with ordinal 1 (dependent)
+
+##### Interested predictors:
+
+```
+total # of features: 143
++---------+-----------------------------+---------+
+|   Index | Name                        | Dtype   |
++=========+=============================+=========+
+|       0 | selfcare_measure_delta      | float64 |
++---------+-----------------------------+---------+
+|       1 | mobility_measure_delta      | float64 |
++---------+-----------------------------+---------+
+|       2 | sex                         | object  |
++---------+-----------------------------+---------+
+|       3 | marital_status              | object  |
++---------+-----------------------------+---------+
+|       4 | admitclass                  | object  |
++---------+-----------------------------+---------+
+|       5 | admit_from                  | object  |
++---------+-----------------------------+---------+
+|       6 | prehospital_living          | object  |
++---------+-----------------------------+---------+
+|       7 | payor_primary               | object  |
++---------+-----------------------------+---------+
+|       8 | arthritis                   | object  |
++---------+-----------------------------+---------+
+|       9 | heightinches                | float64 |
++---------+-----------------------------+---------+
+|      10 | weightpounds                | float64 |
++---------+-----------------------------+---------+
+|      11 | ptindweek1                  | float64 |
++---------+-----------------------------+---------+
+|      12 | ptconweek1                  | float64 |
++---------+-----------------------------+---------+
+|      13 | ptgrpweek1                  | float64 |
++---------+-----------------------------+---------+
+|      14 | ptcoweek1                   | float64 |
++---------+-----------------------------+---------+
+|      15 | otindweek1                  | float64 |
++---------+-----------------------------+---------+
+|      16 | otconweek1                  | float64 |
++---------+-----------------------------+---------+
+|      17 | otgrpweek1                  | float64 |
++---------+-----------------------------+---------+
+|      18 | otcoweek1                   | float64 |
++---------+-----------------------------+---------+
+|      19 | slpindweek1                 | float64 |
++---------+-----------------------------+---------+
+|      20 | slpconweek1                 | float64 |
++---------+-----------------------------+---------+
+|      21 | slpgrpweek1                 | float64 |
++---------+-----------------------------+---------+
+|      22 | slpcoweek1                  | float64 |
++---------+-----------------------------+---------+
+|      23 | ptindweek2                  | float64 |
++---------+-----------------------------+---------+
+|      24 | ptconweek2                  | float64 |
++---------+-----------------------------+---------+
+|      25 | ptgrpweek2                  | float64 |
++---------+-----------------------------+---------+
+|      26 | ptcoweek2                   | float64 |
++---------+-----------------------------+---------+
+|      27 | otindweek2                  | float64 |
++---------+-----------------------------+---------+
+|      28 | otconweek2                  | float64 |
++---------+-----------------------------+---------+
+|      29 | otgrpweek2                  | float64 |
++---------+-----------------------------+---------+
+|      30 | otcoweek2                   | float64 |
++---------+-----------------------------+---------+
+|      31 | slpindweek2                 | float64 |
++---------+-----------------------------+---------+
+|      32 | slpconweek2                 | float64 |
++---------+-----------------------------+---------+
+|      33 | slpgrpweek2                 | float64 |
++---------+-----------------------------+---------+
+|      34 | slpcoweek2                  | float64 |
++---------+-----------------------------+---------+
+|      35 | hispanic                    | object  |
++---------+-----------------------------+---------+
+|      36 | race                        | object  |
++---------+-----------------------------+---------+
+|      37 | language                    | object  |
++---------+-----------------------------+---------+
+|      38 | transport_lack_med          | int64   |
++---------+-----------------------------+---------+
+|      39 | transport_lack_nonmed       | int64   |
++---------+-----------------------------+---------+
+|      40 | hearing_adm                 | Int64   |
++---------+-----------------------------+---------+
+|      41 | vision_adm                  | Int64   |
++---------+-----------------------------+---------+
+|      42 | health_lit_adm              | Int64   |
++---------+-----------------------------+---------+
+|      43 | expression_adm              | Int64   |
++---------+-----------------------------+---------+
+|      44 | understand_verbal_adm       | Int64   |
++---------+-----------------------------+---------+
+|      45 | conduct_bims                | int64   |
++---------+-----------------------------+---------+
+|      46 | bims_total                  | Int64   |
++---------+-----------------------------+---------+
+|      47 | conduct_sams                | int64   |
++---------+-----------------------------+---------+
+|      48 | sams_season                 | int64   |
++---------+-----------------------------+---------+
+|      49 | sams_room                   | int64   |
++---------+-----------------------------+---------+
+|      50 | sams_names                  | int64   |
++---------+-----------------------------+---------+
+|      51 | sams_hosp                   | int64   |
++---------+-----------------------------+---------+
+|      52 | acute_mental_change         | int64   |
++---------+-----------------------------+---------+
+|      53 | inattention_adm             | object  |
++---------+-----------------------------+---------+
+|      54 | disorganized_adm            | object  |
++---------+-----------------------------+---------+
+|      55 | altered_adm                 | object  |
++---------+-----------------------------+---------+
+|      56 | mood_total_adm              | Int64   |
++---------+-----------------------------+---------+
+|      57 | socisolation_adm            | Int64   |
++---------+-----------------------------+---------+
+|      58 | selfcare_prior              | Int64   |
++---------+-----------------------------+---------+
+|      59 | mobility_prior              | Int64   |
++---------+-----------------------------+---------+
+|      60 | stairs_prior                | Int64   |
++---------+-----------------------------+---------+
+|      61 | func_cog_prior              | Int64   |
++---------+-----------------------------+---------+
+|      62 | wc_manual_prior             | int64   |
++---------+-----------------------------+---------+
+|      63 | wc_motor_prior              | int64   |
++---------+-----------------------------+---------+
+|      64 | mechlift_prior              | int64   |
++---------+-----------------------------+---------+
+|      65 | walker_prior                | int64   |
++---------+-----------------------------+---------+
+|      66 | orth_pros_prior             | int64   |
++---------+-----------------------------+---------+
+|      67 | selfcare_measure_adm        | float64 |
++---------+-----------------------------+---------+
+|      68 | mobility_measure_adm        | float64 |
++---------+-----------------------------+---------+
+|      69 | wc_user                     | int64   |
++---------+-----------------------------+---------+
+|      70 | wheel50ft_adm               | Int64   |
++---------+-----------------------------+---------+
+|      71 | wc50_type                   | object  |
++---------+-----------------------------+---------+
+|      72 | wheel150ft_adm              | Int64   |
++---------+-----------------------------+---------+
+|      73 | wc150_type                  | object  |
++---------+-----------------------------+---------+
+|      74 | bladder_incontinence        | Int64   |
++---------+-----------------------------+---------+
+|      75 | bowel_incontinence          | Int64   |
++---------+-----------------------------+---------+
+|      76 | pvd_comorbid                | int64   |
++---------+-----------------------------+---------+
+|      77 | diabetes_comorbid           | int64   |
++---------+-----------------------------+---------+
+|      78 | pain_sleep_adm              | Int64   |
++---------+-----------------------------+---------+
+|      79 | pain_therapy_adm            | Int64   |
++---------+-----------------------------+---------+
+|      80 | pain_activities_adm         | Int64   |
++---------+-----------------------------+---------+
+|      81 | falls_hx                    | object  |
++---------+-----------------------------+---------+
+|      82 | prior_surgery               | object  |
++---------+-----------------------------+---------+
+|      83 | nutrition_parenteral_adm    | int64   |
++---------+-----------------------------+---------+
+|      84 | nutrition_tube_adm          | int64   |
++---------+-----------------------------+---------+
+|      85 | nutrition_mech_diet_adm     | int64   |
++---------+-----------------------------+---------+
+|      86 | nutrition_ther_diet_adm     | int64   |
++---------+-----------------------------+---------+
+|      87 | stage1_pu_adm               | Int64   |
++---------+-----------------------------+---------+
+|      88 | stage2_pu_adm               | Int64   |
++---------+-----------------------------+---------+
+|      89 | stage3_pu_adm               | Int64   |
++---------+-----------------------------+---------+
+|      90 | stage4_pu_adm               | Int64   |
++---------+-----------------------------+---------+
+|      91 | unstageable_dressing_pu_adm | Int64   |
++---------+-----------------------------+---------+
+|      92 | unstageable_slough_pu_adm   | Int64   |
++---------+-----------------------------+---------+
+|      93 | unstageable_deep_pu_adm     | Int64   |
++---------+-----------------------------+---------+
+|      94 | antipsychotic_taking_adm    | int64   |
++---------+-----------------------------+---------+
+|      95 | antipsychotic_ind_adm       | int64   |
++---------+-----------------------------+---------+
+|      96 | anticoagulant_taking_adm    | int64   |
++---------+-----------------------------+---------+
+|      97 | anticoagulant_ind_adm       | int64   |
++---------+-----------------------------+---------+
+|      98 | antibiotic_taking_adm       | int64   |
++---------+-----------------------------+---------+
+|      99 | antibiotic_ind_adm          | int64   |
++---------+-----------------------------+---------+
+|     100 | opioid_taking_adm           | int64   |
++---------+-----------------------------+---------+
+|     101 | opioid_ind_adm              | int64   |
++---------+-----------------------------+---------+
+|     102 | antiplatelet_taking_adm     | int64   |
++---------+-----------------------------+---------+
+|     103 | antiplatelet_ind_adm        | int64   |
++---------+-----------------------------+---------+
+|     104 | hypoglycemic_taking_adm     | int64   |
++---------+-----------------------------+---------+
+|     105 | hypoglycemic_ind_adm        | int64   |
++---------+-----------------------------+---------+
+|     106 | drug_regimen_review         | object  |
++---------+-----------------------------+---------+
+|     107 | med_follow_up               | Int64   |
++---------+-----------------------------+---------+
+|     108 | chemo_adm                   | int64   |
++---------+-----------------------------+---------+
+|     109 | chemo_iv_adm                | int64   |
++---------+-----------------------------+---------+
+|     110 | chemo_oral_adm              | int64   |
++---------+-----------------------------+---------+
+|     111 | chemo_other_adm             | int64   |
++---------+-----------------------------+---------+
+|     112 | radiation_adm               | int64   |
++---------+-----------------------------+---------+
+|     113 | oxygen_adm                  | int64   |
++---------+-----------------------------+---------+
+|     114 | oxygen_cont_adm             | int64   |
++---------+-----------------------------+---------+
+|     115 | oxygen_int_adm              | int64   |
++---------+-----------------------------+---------+
+|     116 | oxygen_high_adm             | int64   |
++---------+-----------------------------+---------+
+|     117 | suctioning_adm              | int64   |
++---------+-----------------------------+---------+
+|     118 | suctioning_sched_adm        | int64   |
++---------+-----------------------------+---------+
+|     119 | suctioning_asneeded_adm     | int64   |
++---------+-----------------------------+---------+
+|     120 | trach_adm                   | int64   |
++---------+-----------------------------+---------+
+|     121 | vent_invasive_adm           | int64   |
++---------+-----------------------------+---------+
+|     122 | vent_noninvasive_adm        | int64   |
++---------+-----------------------------+---------+
+|     123 | vent_bipap_adm              | int64   |
++---------+-----------------------------+---------+
+|     124 | vent_cpap_adm               | int64   |
++---------+-----------------------------+---------+
+|     125 | meds_iv_adm                 | int64   |
++---------+-----------------------------+---------+
+|     126 | meds_iv_vasoactive_adm      | int64   |
++---------+-----------------------------+---------+
+|     127 | meds_iv_antibiotic_adm      | int64   |
++---------+-----------------------------+---------+
+|     128 | meds_iv_anticoagulant_adm   | int64   |
++---------+-----------------------------+---------+
+|     129 | meds_iv_other_adm           | int64   |
++---------+-----------------------------+---------+
+|     130 | transfusions_adm            | int64   |
++---------+-----------------------------+---------+
+|     131 | dialysis_adm                | int64   |
++---------+-----------------------------+---------+
+|     132 | hemodialysis_adm            | int64   |
++---------+-----------------------------+---------+
+|     133 | peritoneal_dialysis_adm     | int64   |
++---------+-----------------------------+---------+
+|     134 | iv_access_adm               | int64   |
++---------+-----------------------------+---------+
+|     135 | iv_access_periph_adm        | int64   |
++---------+-----------------------------+---------+
+|     136 | iv_access_mid_adm           | int64   |
++---------+-----------------------------+---------+
+|     137 | iv_access_cent_adm          | int64   |
++---------+-----------------------------+---------+
+|     138 | age_at_admit                | float64 |
++---------+-----------------------------+---------+
+|     139 | los                         | float64 |
++---------+-----------------------------+---------+
+|     140 | ric                         | float64 |
++---------+-----------------------------+---------+
+|     141 | cmg                         | float64 |
++---------+-----------------------------+---------+
+|     142 | tier                        | object  |
++---------+-----------------------------+---------+
+```
+
+
+
