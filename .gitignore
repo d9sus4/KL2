@@ -39,3 +39,4 @@ data/**
 !data/.gitkeep
 !data/notes.md
 ref/**
+manuscript/**
